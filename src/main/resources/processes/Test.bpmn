@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test" id="m1520491976072" name="">
+  <process id="TEST_FLOW" name="测试工作流" isExecutable="true" isClosed="false" processType="None">
+    <documentation>测试工作流</documentation>
+    <startEvent id="_2" name="StartEvent"></startEvent>
+    <userTask id="apply" name="提交申请" activiti:assignee="${applyUser}"></userTask>
+    <sequenceFlow id="flow1" sourceRef="_2" targetRef="apply"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <userTask id="usertask8" name="负责人审批" activiti:candidateUsers="${bpmCandidateService.getApprovers(applyDept,'FZR')}"></userTask>
+    <sequenceFlow id="flow25" sourceRef="apply" targetRef="usertask8"></sequenceFlow>
+    <userTask id="usertask12" name="经理审批" activiti:candidateUsers="${bpmCandidateService.getApprovers('ZJL')}"></userTask>
+    <sequenceFlow id="flow35" name="同意" sourceRef="usertask8" targetRef="usertask12">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ifAgree}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow37" name="不同意" sourceRef="usertask8" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!ifAgree}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow38" sourceRef="usertask12" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_TEST_FLOW">
+    <bpmndi:BPMNPlane bpmnElement="TEST_FLOW" id="BPMNPlane_TEST_FLOW">
+      <bpmndi:BPMNShape bpmnElement="_2" id="BPMNShape__2">
+        <omgdc:Bounds height="35.0" width="35.0" x="480.0" y="30.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="apply" id="BPMNShape_apply">
+        <omgdc:Bounds height="55.0" width="85.0" x="455.0" y="100.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="478.0" y="330.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask8" id="BPMNShape_usertask8">
+        <omgdc:Bounds height="55.0" width="105.0" x="443.0" y="203.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask12" id="BPMNShape_usertask12">
+        <omgdc:Bounds height="55.0" width="105.0" x="610.0" y="203.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="497.0" y="65.0"></omgdi:waypoint>
+        <omgdi:waypoint x="497.0" y="100.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25">
+        <omgdi:waypoint x="497.0" y="155.0"></omgdi:waypoint>
+        <omgdi:waypoint x="495.0" y="203.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow35" id="BPMNEdge_flow35">
+        <omgdi:waypoint x="548.0" y="230.0"></omgdi:waypoint>
+        <omgdi:waypoint x="610.0" y="230.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="24.0" x="552.0" y="211.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow37" id="BPMNEdge_flow37">
+        <omgdi:waypoint x="495.0" y="258.0"></omgdi:waypoint>
+        <omgdi:waypoint x="495.0" y="330.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="36.0" x="495.0" y="280.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
+        <omgdi:waypoint x="662.0" y="258.0"></omgdi:waypoint>
+        <omgdi:waypoint x="662.0" y="347.0"></omgdi:waypoint>
+        <omgdi:waypoint x="513.0" y="347.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

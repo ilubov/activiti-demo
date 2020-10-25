@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>${title}</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<script>
+    $(document).ready(function () {});
+
+    // 发布流程
+    function pubFlow() {
+        if ($("#bpmnFile").val() == "") {
+            alert("请选择流程文件！");
+            return false;
+        }
+        if (confirm("确认要发布流程吗？")) {
+            fileForm.submit();
+        }
+    }
+
+    function delFlow(deploymentId) {
+        if (confirm("确认要删除流程吗？")) {
+            $.post("/delFlow", {deploymentId: deploymentId}, function (result) {
+                alert(result);
+                document.location.href = "/flow";
+            });
+        }
+    }
+
+    function flowStart(key) {
+        if (confirm("确认要创建流程实例吗？")) {
+            $.post("/newInstance", {key: key}, function (result) {
+                alert(result);
+            });
+        }
+    }
+</script>
+<body>
+<a href="/">《返回首页</a>
+<h1>流程管理</h1>
+<form name="fileForm" enctype="multipart/form-data" method="post">
+    <p>
+        <input type="file" name="bpmnFile" id="bpmnFile" ><input type="button" value="发布流程" onclick="pubFlow()">
+    </p>
+</form>
+<table border="1" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+        <th>流程ID</th>
+        <th>流程Key</th>
+        <th>名称</th>
+        <th>版本</th>
+        <th>操作</th>
+    </tr>
+    <#if flows?exists>
+    <#list flows as item>
+    <tr>
+        <td>${item.deploymentId}</td>
+        <td>${item.key}</td>
+        <td>${item.deployName}</td>
+        <td>${item.version}</td>
+        <td><a href="/viewflow?deploymentId=${item.deploymentId}&diagramResourceName=${item.diagramResourceName}" target="_blank">流程图</a></td>
+        <td>
+            <input type="button" value="启动流程" onclick="flowStart('${item.key}')"> |
+            <input type="button" value="删除流程定义" onclick="delFlow('${item.deploymentId}')">
+        </td>
+    </tr>
+    </#list>
+    </#if>
+</table>
+</body>
+</html>
