@@ -46,7 +46,7 @@ spring:
     #自动更新数据库结构
     database-schema-update: true
     # asyncExecutorActivate是指activiti在流程引擎启动就激活AsyncExecutor,异步：true-开启（默认）、false-关闭
-    spring.activiti.async-executor-activate: true
+    async-executor-activate: true
     history-level: full
     db-history-used: true
     #流程定义文件存放目录,要具体到某个目录
